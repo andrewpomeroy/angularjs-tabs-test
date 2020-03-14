@@ -1,9 +1,20 @@
 import angular from "angular";
 import "./bootstrapper";
 
-angular.module("app").controller("HelloController", function($scope) {
+
+angular.module("app").controller("HelloController", function($scope, $timeout) {
 	$scope.person = "andrew";
+	$timeout(() => {
+		$scope.showExtras = true;
+		$scope.two = "two";
+	}, 700);
+	$timeout(() => {
+		$scope.one = "ofasdfgkljfadkgjadfkgjne";
+		$scope.two = "two";
+	}, 1400);
 });
 
-import testComponent from "./components/test-component";
-angular.module("app").component("testComponent", testComponent);
+import tabs from "./components/tabs";
+angular.module("app").component("tabs", tabs);
+import tab from "./components/tab";
+angular.module("app").component("tab", tab);

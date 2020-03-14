@@ -8,7 +8,17 @@
 <body ng-app="app">
   <div ng-controller="HelloController">
     I am: <strong>{{person}}</strong>
-    <test-component prop="person"></test-component>
+    <tabs>
+      <tab>Est cillum</tab>
+      <tab>Nisi Lorem</tab>
+      <tab>Officia</tab>
+      <tab>Cillum nisi</tab>
+      <tab watch="[one, two]">{{one || "Non deserunt"}}</tab>
+      <tab watch="one">{{one || "Eu non elit"}}</tab>
+      <tab ng-if="showExtras">Mollit</tab>
+      <tab ng-if="showExtras">Dolor</tab>
+      <tab ng-if="showExtras">Fugiat qui labore</tab>
+    </tabs>
   </div>
   <script src="src/index.js"></script>
 </body>

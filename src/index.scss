@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+}
+
+.tabs-info {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 12px;
+  background: #666;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  &--overflow {
+    font-weight: 600;
+    color: #ff5555;
+  }
+}
+
+.tabs {
+  position: relative;
+}
+
+.tabs-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tabs-content--noWrap {
+  flex-wrap: nowrap;
+}
+
+tab {
+  display: flex;
+  flex: 0 0 auto;
+  padding: 12px 20px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: .03em;
+}
