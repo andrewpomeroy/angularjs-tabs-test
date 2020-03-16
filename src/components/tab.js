@@ -1,6 +1,5 @@
 import angular from "angular";
 import template from "./tab.html";
-import uuid from "uuid4";
 
 export default {
 	bindings: {
@@ -17,23 +16,8 @@ export default {
 function TabController() {
 	var $ctrl = this;
 
-	var setupWatchers = function () {
-		// if ($ctrl.watch) {
-		// 	var watchList;
-		// 	if (!Array.isArray($ctrl.watch)) {
-		// 		watchList = [];
-		// 		watchList.push($ctrl.watch);
-		// 	}
-		// 	else {
-				
-		// 	}
-		// }
-	};
-
 	$ctrl.$postLink = function () {
-		$ctrl.uuid = uuid();
 		$ctrl.tabs.registerTab(this);
-		console.log("hello", $ctrl.tabs.registerTab);
 	};
 
 	$ctrl.$onDestroy = function () {
@@ -41,7 +25,9 @@ function TabController() {
 	};
 
 	$ctrl.$onChanges = function (changes) {
-		$ctrl.tabs.updateTab(this);
+		if (changes.watch) {
+			$ctrl.tabs.updateTab(this);
+		}
 	};
 
 }
