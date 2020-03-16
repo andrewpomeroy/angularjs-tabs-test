@@ -11,12 +11,26 @@ export default {
 	controller: TabsController
 };
 
-TabsController.$inject = ["$element", "$timeout", "$window"];
-function TabsController($element, $timeout, $window) {
+var keys = {
+	end: 35,
+	home: 36,
+	left: 37,
+	up: 38,
+	right: 39,
+	down: 40,
+	delete: 46,
+	enter: 13,
+	space: 32
+};
+
+TabsController.$inject = ["$scope", "$element", "$timeout", "$window"];
+function TabsController($scope, $element, $timeout, $window) {
 	var $ctrl = this;
+	var contentElm;
 
 	$ctrl.$onInit = function () {
 		$window.addEventListener("resize", debounce(testBounds, 500));
+		contentElm = $element[0].querySelector("[role='tablist']");
 	};
 
 	$ctrl.registerTab = function (tab) {
@@ -35,11 +49,12 @@ function TabsController($element, $timeout, $window) {
 	};
 
 	var testBounds = function () {
-		$ctrl.noWrap = true;
-		$timeout(function () {
-			var content = $element[0].querySelector("[tabs-content]");
-			console.log(content.scrollWidth, content.clientWidth);
-			$ctrl.isOverflowing = (content && content.scrollWidth > content.clientWidth);
+		if ($ctrl.timeout) $timeout.cancel($ctrl.timeout);
+		if (contentElm) contentElm.classList.add("tabs-content--measuring");
+		$ctrl.timeout = $timeout(function () {
+			// console.log(contentElm.scrollWidth, contentElm.clientWidth);
+			$ctrl.isOverflowing = (contentElm && contentElm.scrollWidth > contentElm.clientWidth);
+			contentElm.classList.remove("tabs-content--measuring");
 		});
 	};
 

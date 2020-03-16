@@ -29,8 +29,12 @@ body {
   flex-wrap: wrap;
 }
 
-.tabs-content--noWrap {
+.tabs-content--measuring {
   flex-wrap: nowrap;
+}
+
+.tabs-content--vertical:not(.tabs-content--measuring) {
+  flex-direction: column;
 }
 
 tab {

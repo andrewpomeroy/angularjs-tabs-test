@@ -13,11 +13,13 @@ export default {
 	transclude: true
 };
 
-function TabController() {
+TabController.$inject = ["$element"];
+function TabController($element) {
 	var $ctrl = this;
 
 	$ctrl.$postLink = function () {
 		$ctrl.tabs.registerTab(this);
+		$element[0].setAttribute("role", "tab");
 	};
 
 	$ctrl.$onDestroy = function () {
