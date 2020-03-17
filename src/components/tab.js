@@ -15,8 +15,8 @@ export default {
 	transclude: true
 };
 
-TabController.$inject = ["$timeout", "$element"];
-function TabController($timeout, $element) {
+TabController.$inject = ["$timeout", "$element", "$location"];
+function TabController($timeout, $element, $location) {
 	var $ctrl = this;
 	$ctrl.uuid = "tab-" + uuid();
 	$element[0].setAttribute("id", $ctrl.uuid);
@@ -40,10 +40,7 @@ function TabController($timeout, $element) {
 		});
 		link.on("keydown", function (event) {
 			// enter key will just activate the link, parent controller doesn't need to do anything
-			if (event.keyCode === 13) {
-
-			}
-			else {
+			if (event.keyCode !== 13) {
 				$ctrl.tabs.handleKeyDown($ctrl, event);
 			}
 		});
