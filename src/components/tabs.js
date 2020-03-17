@@ -28,7 +28,7 @@ TabsController.$inject = ["$scope", "$element", "$timeout", "$window"];
 function TabsController($scope, $element, $timeout, $window) {
 	var $ctrl = this;
 	var contentElm;
-	$ctrl.registeredTabIds = new Set;
+	$ctrl.registeredTabs = new Map;
 
 	$ctrl.$onInit = function () {
 		$window.addEventListener("resize", debounce(testBounds, 500));
@@ -37,22 +37,25 @@ function TabsController($scope, $element, $timeout, $window) {
 
 	$ctrl.registerTab = function (tab) {
 		console.log("registering", tab, tab.uuid);
-		$ctrl.registeredTabIds.add(tab.uuid);
-		buildList();
-		testBounds();
+		$ctrl.registeredTabs.set(tab.uuid, tab);
+		updateAll();
 	};
 	
 	$ctrl.deregisterTab = function (tab) {
-		console.log("deregistering", tab, tab.uuid);
-		$ctrl.registeredTabIds.delete(tab.uuid);
-		buildList();
-		testBounds();
+		console.log("deregistering", tab.uuid);
+		$ctrl.registeredTabs.delete(tab.uuid);
+		updateAll();
 	};
 
-	$ctrl.updateTab = function (tab) {
+	$ctrl.handleTabUpdate = function (tab) {
 		// console.log("updating", tab, tab.uuid);
+		updateAll();
+	};
+
+	var updateAll = function () {
 		buildList();
 		testBounds();
+		updateTabs();
 	};
 
 	var buildList = function () {
@@ -61,10 +64,28 @@ function TabsController($scope, $element, $timeout, $window) {
 				return tabElement.id;
 			})
 			.filter(function (id) {
-				return Array.from($ctrl.registeredTabIds).find(function (registeredTabId) {
+				// console.log($ctrl.registeredTabs.entries());
+				// debugger;
+				return (Array.from($ctrl.registeredTabs.keys())).find(function (registeredTabId) {
+				// return $ctrl.registeredTabs.entries().find(function (registeredTabId) {
 					return registeredTabId === id;
 				});
 			});
+	};
+
+	var updateTabs = function () {
+		$ctrl.tabsList.forEach(function (tabId) {
+			if ($ctrl.focusedTab === tabId) {
+				var link = document.querySelector("#" + tabId + " a");
+				if (document.activeElement !== link) {
+					link.focus();
+				}
+			}
+			// $ctrl.registeredTabs.get(tabId).update({
+			// 	isActive: $ctrl.activeTab === tabId,
+			// 	isFocused: $ctrl.focusedTab === tabId,
+			// });
+		});
 	};
 
 	var testBounds = function () {
@@ -80,10 +101,12 @@ function TabsController($scope, $element, $timeout, $window) {
 	$ctrl.handleClick = function(tab, event) {
 		console.log("tab clicked", tab, event);
 		$ctrl.activeTab = tab.uuid;
+		updateTabs();
 	};
 	$ctrl.handleFocus = function(tab, event) {
 		console.log("tab focused", tab, event);
 		$ctrl.focusedTab = tab.uuid;
+		updateTabs();
 	};
 	$ctrl.handleKeyDown = function(tab, event) {
 		var keyCode = event.keyCode;
@@ -114,6 +137,7 @@ function TabsController($scope, $element, $timeout, $window) {
 			console.log("changing to ", targetId);
 			$ctrl.focusedTab = targetId;
 		}
+		updateTabs();
 	}
 
 }
