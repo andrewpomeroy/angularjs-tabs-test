@@ -45,3 +45,10 @@ tab {
   font-size: 12px;
   letter-spacing: .03em;
 }
+
+.tab-link {
+  border-bottom: 4px solid gray;
+}
+.tab-link--isActive {
+  border-bottom-color: blue;
+}

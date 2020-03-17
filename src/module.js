@@ -11,6 +11,7 @@ angular.module("app").controller("HelloController", function($scope, $timeout) {
 	$timeout(() => {
 		$scope.one = "ofasdfgkljfadkgjadfkgjne";
 		$scope.two = "two";
+		$scope.showExtras = false;
 	}, 1400);
 });
 
