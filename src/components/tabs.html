@@ -1,6 +1,7 @@
 <div class="tabs">
-  <div class="tabs-content" role="tablist" tabs-content
-    ng-class="{'tabs-content--noWrap': $ctrl.noWrap, 'tabs-content--vertical': $ctrl.isVertical}" ng-transclude>
+  <div class="tabs-content" role="tablist" aria-orientation="{{$ctrl.isVertical ? 'vertical' : 'horizontal'}}"
+    tabs-content ng-class="{'tabs-content--noWrap': $ctrl.noWrap, 'tabs-content--vertical': $ctrl.isVertical}"
+    ng-transclude>
   </div>
   <div class="tabs-info" ng-class="{'--overflow': $ctrl.isVertical}">
     {{!$ctrl.isVertical ? 'NOT ' : ''}}Overflowing</div>

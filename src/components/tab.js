@@ -31,11 +31,8 @@ function TabController($timeout, $element, $location) {
 		$element[0].setAttribute("role", "tab");
 		// Set up event handlers -> parent context
 		var link = $element.find("a");
-		link.on("click", function (event) {
-			$ctrl.tabs.handleClick($ctrl, event);
-		});
 		link.on("focusin", function (event) {
-			console.log("focus");
+			// Make parent controller aware of which tab is focused
 			$ctrl.tabs.handleFocus($ctrl, event);
 		});
 		link.on("keydown", function (event) {
@@ -57,27 +54,5 @@ function TabController($timeout, $element, $location) {
 			$ctrl.tabs.handleTabUpdate(this);
 		}
 	};
-
-	// Handle state updates from parent (tabs) controller-- update local state
-	// $ctrl.update = function (props) {
-	// 	$timeout(function () {
-	// 		if (props.isFocused !== undefined) {
-	// 			$ctrl.isFocused = props.isFocused; 
-	// 			// Necessary for accessibility
-	// 			$element[0].setAttribute("aria-selected", $ctrl.isFocused);
-	// 		}
-	// 		if (props.isFocused !== undefined) {
-	// 			$ctrl.isFocused = props.isActive; 
-	// 			var link = $element.find("a");
-	// 			if ($ctrl.isFocused) {
-	// 				console.log("is focused", $ctrl);
-	// 			} 
-	// 			// avoid re-focusing if element is already focused
-	// 			if ($ctrl.isFocused && document.activeElement !== link) {
-	// 				link[0].focus();
-	// 			}
-	// 		}
-	// 	});
-	// };
 
 }

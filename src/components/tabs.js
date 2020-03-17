@@ -64,10 +64,7 @@ function TabsController($scope, $element, $timeout, $window) {
 				return tabElement.id;
 			})
 			.filter(function (id) {
-				// console.log($ctrl.registeredTabs.entries());
-				// debugger;
 				return (Array.from($ctrl.registeredTabs.keys())).find(function (registeredTabId) {
-				// return $ctrl.registeredTabs.entries().find(function (registeredTabId) {
 					return registeredTabId === id;
 				});
 			});
@@ -81,10 +78,6 @@ function TabsController($scope, $element, $timeout, $window) {
 					link.focus();
 				}
 			}
-			// $ctrl.registeredTabs.get(tabId).update({
-			// 	isActive: $ctrl.activeTab === tabId,
-			// 	isFocused: $ctrl.focusedTab === tabId,
-			// });
 		});
 	};
 
@@ -92,51 +85,72 @@ function TabsController($scope, $element, $timeout, $window) {
 		if ($ctrl.timeout) $timeout.cancel($ctrl.timeout);
 		if (contentElm) contentElm.classList.add("tabs-content--measuring");
 		$ctrl.timeout = $timeout(function () {
-			// console.log(contentElm.scrollWidth, contentElm.clientWidth);
 			$ctrl.isVertical = (contentElm && contentElm.scrollWidth > contentElm.clientWidth);
 			contentElm.classList.remove("tabs-content--measuring");
 		});
 	};
-
-	$ctrl.handleClick = function(tab, event) {
-		console.log("tab clicked", tab, event);
-		updateTabs();
-	};
 	$ctrl.handleFocus = function(tab, event) {
-		console.log("tab focused", tab, event);
 		$ctrl.focusedTab = tab.uuid;
 		updateTabs();
 	};
 	$ctrl.handleKeyDown = function(tab, event) {
 		var keyCode = event.keyCode;
-		console.log(keyCode);
 		switch (keyCode) {
 		case keys.right:
 			if (!$ctrl.isVertical) {
-				next();
+				incrementTab(1);
+			}
+			break;
+		case keys.left:
+			if (!$ctrl.isVertical) {
+				incrementTab(-1);
 			}
 			break;
 		case keys.down:
 			if ($ctrl.isVertical) {
-				next(); 
+				incrementTab(1); 
 			}
+			break;
+		case keys.up:
+			if ($ctrl.isVertical) {
+				incrementTab(-1); 
+			}
+			break;
+		case keys.home:
+			focusFirstTab();
+			break;
+		case keys.end:
+			focusLastTab();
 			break;
 		default:
 			return;
 		}
 	};
 
-	function next () {
+	function incrementTab (int) {
 		var index = $ctrl.tabsList.findIndex(function (tabId) {
-			console.log($ctrl.focusedTab, tabId);
 			return tabId === $ctrl.focusedTab;
 		});
-		var targetId = $ctrl.tabsList[index + 1];
+		var targetId = $ctrl.tabsList[index + int];
 		if (targetId) {
-			console.log("changing to ", targetId);
 			$ctrl.focusedTab = targetId;
+			updateTabs();
 		}
-		updateTabs();
+	}
+	function focusFirstTab () {
+		var targetId = $ctrl.tabsList[0];
+		if (targetId) {
+			$ctrl.focusedTab = targetId;
+			updateTabs();
+		}
+	}
+
+	function focusLastTab () {
+		var targetId = $ctrl.tabsList[$ctrl.tabsList.length - 1];
+		if (targetId) {
+			$ctrl.focusedTab = targetId;
+			updateTabs();
+		}
 	}
 
 }
