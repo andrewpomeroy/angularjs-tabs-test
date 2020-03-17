@@ -5,6 +5,7 @@ import uuid from "uuid4";
 export default {
 	bindings: {
 		watch: "<",
+		sref: "@"
 	},
 	require: {
 		tabs: "^"
@@ -38,7 +39,13 @@ function TabController($timeout, $element) {
 			$ctrl.tabs.handleFocus($ctrl, event);
 		});
 		link.on("keydown", function (event) {
-			$ctrl.tabs.handleKeyDown($ctrl, event);
+			// enter key will just activate the link, parent controller doesn't need to do anything
+			if (event.keyCode === 13) {
+
+			}
+			else {
+				$ctrl.tabs.handleKeyDown($ctrl, event);
+			}
 		});
 	};
 

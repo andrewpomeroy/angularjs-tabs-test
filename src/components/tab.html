@@ -1,2 +1,3 @@
-<a class="tab-link" tabindex="0"
-  ng-class="{'tab-link--isFocused': $ctrl.isFocused, 'tab-link--isActive': $ctrl.isActive}" ng-transclude></a>
+<a class="tab-link" tabindex="0" ui-sref="{{$ctrl.sref}}" ui-sref-active="tab-link--isActive"
+  ng-class="{'tab-link--isFocused': $ctrl.isFocused, 'tab-link--isActive': $ctrl.tabs.activeTab === $ctrl.uuid}"
+  ng-transclude></a>

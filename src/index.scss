@@ -48,10 +48,13 @@ tab {
 
 .tab-link {
   border-bottom: 4px solid gray;
+  text-decoration: none;
+  color: gray;
 }
 .tab-link--isActive {
+  color: black;
   border-bottom-color: blue;
+  font-weight: bold;
 }
 .tab-link--isFocused {
-  color: blue;
 }

@@ -1,5 +1,31 @@
 import angular from "angular";
+import "@uirouter/angularjs";
 import "./bootstrapper";
+
+angular.module("app").config(["$locationProvider",
+	function ($locationProvider) {
+		// $locationProvider.hashPrefix('!');
+		$locationProvider.html5Mode({
+			enabled: true,
+			requireBase: true
+		});
+	}
+]);
+
+angular.module("app").config(["$stateProvider",
+	function ($stateProvider) {
+
+		$stateProvider.state({
+			name: "root",
+			url: "/",
+		});
+
+		$stateProvider.state({
+			name: "tab",
+			url: "/tab/{id}",
+		});
+
+	}]);
 
 
 angular.module("app").controller("HelloController", function($scope, $timeout) {
@@ -19,3 +45,4 @@ import tabs from "./components/tabs";
 angular.module("app").component("tabs", tabs);
 import tab from "./components/tab";
 angular.module("app").component("tab", tab);
+

@@ -100,7 +100,6 @@ function TabsController($scope, $element, $timeout, $window) {
 
 	$ctrl.handleClick = function(tab, event) {
 		console.log("tab clicked", tab, event);
-		$ctrl.activeTab = tab.uuid;
 		updateTabs();
 	};
 	$ctrl.handleFocus = function(tab, event) {
