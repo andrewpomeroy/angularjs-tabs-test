@@ -25,6 +25,11 @@ angular.module("app").config(["$stateProvider",
 			url: "/tab/{id}",
 		});
 
+		$stateProvider.state({
+			name: "whatever",
+			url: "/whatever/{id}",
+		});
+
 	}]);
 
 
@@ -33,12 +38,12 @@ angular.module("app").controller("HelloController", function($scope, $timeout) {
 	$timeout(() => {
 		$scope.showExtras = true;
 		$scope.two = "two";
-	}, 700);
+	}, 5000);
 	$timeout(() => {
 		$scope.one = "ofasdfgkljfadkgjadfkgjne";
 		$scope.two = "two";
 		$scope.showExtras = false;
-	}, 1400);
+	}, 10000);
 });
 
 import tabs from "./components/tabs";

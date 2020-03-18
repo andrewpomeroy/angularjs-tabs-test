@@ -36,19 +36,16 @@ function TabsController($scope, $element, $timeout, $window) {
 	};
 
 	$ctrl.registerTab = function (tab) {
-		console.log("registering", tab, tab.uuid);
 		$ctrl.registeredTabs.set(tab.uuid, tab);
 		updateAll();
 	};
 	
 	$ctrl.deregisterTab = function (tab) {
-		console.log("deregistering", tab.uuid);
 		$ctrl.registeredTabs.delete(tab.uuid);
 		updateAll();
 	};
 
 	$ctrl.handleTabUpdate = function (tab) {
-		// console.log("updating", tab, tab.uuid);
 		updateAll();
 	};
 

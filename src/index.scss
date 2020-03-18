@@ -58,3 +58,6 @@ tab {
 }
 .tab-link--isFocused {
 }
+[aria-selected="true"] {  
+  outline: 1px solid red;
+}

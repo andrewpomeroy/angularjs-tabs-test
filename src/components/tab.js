@@ -15,20 +15,18 @@ export default {
 	transclude: true
 };
 
-TabController.$inject = ["$timeout", "$element", "$location"];
-function TabController($timeout, $element, $location) {
+TabController.$inject = ["$timeout", "$element", "$transitions",  "$state"];
+function TabController($timeout, $element, $transitions, $state) {
 	var $ctrl = this;
 	$ctrl.uuid = "tab-" + uuid();
 	$element[0].setAttribute("id", $ctrl.uuid);
-
-	// DEBUG
-	$ctrl.$element = $element;
 
 	$ctrl.$postLink = function () {
 		// Make sure parent (tabs) controller knows about this tab
 		$ctrl.tabs.registerTab(this);
 		// Necessary for accessibility
 		$element[0].setAttribute("role", "tab");
+		updateActiveStatus();
 		// Set up event handlers -> parent context
 		var link = $element.find("a");
 		link.on("focusin", function (event) {
@@ -43,6 +41,10 @@ function TabController($timeout, $element, $location) {
 		});
 	};
 
+	$transitions.onSuccess({}, function () {
+		updateActiveStatus();
+	});
+
 	$ctrl.$onDestroy = function () {
 		// If this tab disappears (ng-if or whatever), let the parent controller forget about keeping it updated
 		$ctrl.tabs.deregisterTab(this);
@@ -54,5 +56,14 @@ function TabController($timeout, $element, $location) {
 			$ctrl.tabs.handleTabUpdate(this);
 		}
 	};
+
+	// Active styling is taken care of by the ui-sref-active attribute, this is purely for `aria-selected`
+	function updateActiveStatus () {
+		var elm = $element.find("a")[0];
+		$timeout(function () {
+			var isActive = elm.classList.contains("tab-link--isActive");
+			elm.setAttribute("aria-selected", isActive);
+		});
+	}
 
 }
